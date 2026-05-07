@@ -46,8 +46,23 @@ CNAME | docs | cname.mintlify.builders
 </Tip>
 
 <Warning>
-  If you migrate an existing domain and want zero downtime, add the verification `TXT` records before updating your `CNAME`. Then wait until SSL/TLS certificates pre-provision before cutting over. Switching the `CNAME` before Mintlify issues certificates causes HTTPS requests to fail until provisioning completes.
+  Do not add or change your `CNAME` until both verification `TXT` records show as verified in your dashboard. Each appears with a green check when DNS is correct. The dashboard verifies `TXT` records before certificate provisioning can complete. Switching `CNAME` too early commonly breaks HTTPS until provisioning finishes.
+
+  If you migrate an existing domain and want zero downtime, publish the verification `TXT` records first and wait until they show verified and TLS has pre-provisioned before pointing `CNAME` at Mintlify.
 </Warning>
+
+### Verification TXT records
+
+After you add a custom domain, the dashboard displays two `TXT` records that you must add at your DNS provider:
+
+```text
+TXT | _acme-challenge.<your-domain> | <value shown in your dashboard>
+TXT | _cf-custom-hostname.<your-domain> | <value shown in your dashboard>
+```
+
+The `_acme-challenge` record authorizes Let's Encrypt to issue a TLS certificate for your domain, and the `_cf-custom-hostname` record verifies that you control the domain.
+
+The dashboard polls DNS in the background and marks each record with a green check once it verifies the expected value. After saving records at your DNS provider, allow a short time for propagation before status updates appear.
 
 ### DNS propagation
 
@@ -75,15 +90,9 @@ Mintlify reserves the `/.well-known/acme-challenge` path for certificate validat
 
 ### Provider-specific settings
 
-<AccordionGroup>
-  <Accordion title="Vercel verification">
-    If Vercel is your domain provider, you must add a verification `TXT` record. This information appears on your dashboard after submitting your custom domain, and Mintlify emails it to you.
-  </Accordion>
-
-  <Accordion title="Cloudflare encryption mode">
-    If Cloudflare is your DNS provider, you must enable the "Full (strict)" mode for the SSL/TLS encryption setting. Additionally, disable "Always Use HTTPS" in your Edge Certificates settings. Cloudflare's HTTPS redirect blocks Let's Encrypt from validating your domain during certificate provisioning.
-  </Accordion>
-</AccordionGroup>
+<Accordion title="Cloudflare encryption mode">
+  If Cloudflare is your DNS provider, you must enable the "Full (strict)" mode for the SSL/TLS encryption setting. Additionally, disable "Always Use HTTPS" in your Edge Certificates settings. Cloudflare's HTTPS redirect blocks Let's Encrypt from validating your domain during certificate provisioning.
+</Accordion>
 
 ## Set a canonical URL
 
