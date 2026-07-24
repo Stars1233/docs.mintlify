@@ -122,6 +122,7 @@ DNS
 DNSChecker
 DNSimple
 docs\.json
+DocFX
 DocumentDB
 Docusaurus
 DOCX
@@ -197,6 +198,7 @@ IP
 isHidden
 ISO
 Java
+Javadoc
 JavaScript
 JetBrains
 Jira
@@ -228,7 +230,9 @@ Lucide
 (?i)luma
 M2M
 macOS
+ManagedReference
 Markdown
+Maven
 (?i)mcp
 md
 MDX
@@ -297,6 +301,7 @@ ParamField
 PDF
 PDFs
 PHP
+phpDocumentor
 PII
 Pirsch
 Porkbun
